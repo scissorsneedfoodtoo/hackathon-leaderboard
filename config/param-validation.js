@@ -38,10 +38,10 @@ module.exports = {
   // POST /api/github
   team: {
     body: {
-      teamName: Joi.string(),
-      repository: Joi.string(),
-      siteURL: Joi.string(),
-      contributors: Joi.array(),
+      teamName: Joi.string().allow(""),
+      teamRepo: Joi.string().allow(""),
+      siteURL: Joi.string().allow(""),
+      contributors: Joi.array().allow(""),
       isOnlineHackathon: Joi.boolean()
     }
   }

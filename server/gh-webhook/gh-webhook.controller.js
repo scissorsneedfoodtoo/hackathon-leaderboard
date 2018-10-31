@@ -86,16 +86,18 @@ const Team = require('./gh-webhook.model');
  * @returns {Team}
  */
 function update(req, res, next) {
-  // if (!req.body || !req.body.action || !req.body.pull_request) {
-  //   res.sendStatus(400).end();
-  //   return;
-  // }
+  if (!req.body || !req.body.action || !req.body.pull_request) {
+    res.sendStatus(400).end();
+    return;
+  }
   const { action, pull_request: { base, merged } } = req.body;
   if (action === 'closed' && base.ref === 'master' && merged) {
     const team = new Team ({
       teamName: base.repository.owner.name,
-      repository: base.repository.html_url,
-      contributors: base.repository.contributors_url
+      teamRepo: base.repository.html_url,
+      siteURL: "",
+      contributors: base.repository.contributors_url,
+      isOnlineHackathon: true
     });
 
     team.save()

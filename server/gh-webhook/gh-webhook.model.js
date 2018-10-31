@@ -10,7 +10,7 @@ const TeamSchema = new mongoose.Schema({
   teamName: {
     type: String
   },
-  repository: {
+  teamRepo: {
     type: String
   },
   siteURL: {
