@@ -82,6 +82,32 @@ const Team = require('./gh-webhook.model');
 // module.exports = { load, get, create, update, list, remove };
 
 /**
+ * Add / Update existing team.
+ * @returns {Team}
+ */
+function update(req, res, next) {
+  // if (!req.body || !req.body.action || !req.body.pull_request) {
+  //   res.sendStatus(400).end();
+  //   return;
+  // }
+  const { action, pull_request: { base, merged } } = req.body;
+  if (action === 'closed' && base.ref === 'master' && merged) {
+    const team = new Team ({
+      teamName: base.repository.owner.name,
+      repository: base.repository.html_url,
+      contributors: base.repository.contributors_url
+    });
+
+    team.save()
+    .then(savedTeam => res.json(savedTeam))
+    .catch(e => next(e));
+    res.sendStatus(200).end();
+  } else {
+    res.sendStatus(200).end();
+  }
+}
+
+/**
  * Get teams list.
  * @property {number} req.query.skip - Number of teams to be skipped.
  * @property {number} req.query.limit - Limit number of teams to be returned.
@@ -94,4 +120,4 @@ function list(req, res, next) {
     .catch(e => next(e));
 }
 
-module.exports = { list };
+module.exports = { update, list };

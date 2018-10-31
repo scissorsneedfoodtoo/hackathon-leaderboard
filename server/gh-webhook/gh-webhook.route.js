@@ -1,7 +1,7 @@
 const express = require('express');
 const validate = require('express-validation');
 const paramValidation = require('../../config/param-validation');
-const ghPayloadCtrl = require('./github-payload.controller');
+const ghWebhookCtrl = require('./gh-webhook.controller');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -10,7 +10,7 @@ router.route('/')
   // .get(userCtrl.list)
 
   /** POST /api/users - Create new user */
-  .post(validate(paramValidation.viewWebhookResponse), ghPayloadCtrl.view);
+  .post(validate(paramValidation.team), ghWebhookCtrl.update);
 
 // router.route('/:userId')
 //   /** GET /api/users/:userId - Get user */
@@ -24,5 +24,11 @@ router.route('/')
 
 // /** Load user when API with userId route parameter is hit */
 // router.param('userId', userCtrl.load);
+
+router.route('/teams')
+
+  /** GET /api/github/teams - Get list of teams */
+  .get(ghWebhookCtrl.list)
+
 
 module.exports = router;
