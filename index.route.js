@@ -1,7 +1,7 @@
 const express = require('express');
 const userRoutes = require('./server/user/user.route');
 const authRoutes = require('./server/auth/auth.route');
-const githubRoutes = require('./server/github-payload/github-payload.route');
+const githubRoutes = require('./server/gh-webhook/gh-webhook.route');
 
 const router = express.Router(); // eslint-disable-line new-cap
 

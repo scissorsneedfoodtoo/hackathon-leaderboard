@@ -28,10 +28,21 @@ module.exports = {
     }
   },
 
-  // POST /api/github
+  // POST /api/github/view
   viewWebhookResponse: {
     body: {
       obj: Joi.object()
+    }
+  },
+  
+  // POST /api/github
+  team: {
+    body: {
+      teamName: Joi.string(),
+      repository: Joi.string(),
+      siteURL: Joi.string(),
+      contributors: Joi.array(),
+      isOnlineHackathon: Joi.boolean()
     }
   }
 };

@@ -1,4 +1,4 @@
-// const User = require('./user.model');
+const Team = require('./gh-webhook.model');
 
 // /**
 //  * Load user and append to req.
@@ -82,12 +82,16 @@
 // module.exports = { load, get, create, update, list, remove };
 
 /**
- * Delete user.
- * @returns {Payload}
+ * Get teams list.
+ * @property {number} req.query.skip - Number of teams to be skipped.
+ * @property {number} req.query.limit - Limit number of teams to be returned.
+ * @returns {Team[]}
  */
-
-function view(req, res, next) {
-  return res.json(req.body);
+function list(req, res, next) {
+  const { limit = 50, skip = 0 } = req.query;
+  Team.list({ limit, skip })
+    .then(teams => res.json(teams))
+    .catch(e => next(e));
 }
 
-module.exports = { view };
+module.exports = { list };
